@@ -2,132 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WealthMind Access - Phantom X Signals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WealthMind Early Access</title>
   <style>
     body {
       margin: 0;
-      background: #0b0b0b;
-      color: #eee;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: #f1f1f1;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      justify-content: center;
+      height: 100vh;
     }
-    .container {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 450px;
-      width: 100%;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
-      text-align: center;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
     }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #cccccc;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 300px;
+    }
+
     input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 8px;
+      padding: 0.8rem;
       border: none;
-      font-size: 16px;
-      margin-top: 20px;
-      background: rgba(255,255,255,0.1);
-      color: #eee;
+      border-radius: 8px;
+      font-size: 1rem;
     }
-    input::placeholder {
-      color: #bbb;
-    }
+
     button {
-      margin-top: 25px;
-      padding: 14px 0;
-      width: 100%;
-      font-size: 16px;
-      background: #00ff99;
-      color: #0b0b0b;
-      font-weight: 700;
+      padding: 0.9rem;
+      background: #00ffe0;
+      color: #000;
       border: none;
       border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
     }
+
     button:hover {
-      background: #00cc77;
-    }
-    #message {
-      margin-top: 20px;
-      font-size: 14px;
-      min-height: 20px;
-    }
-    #signals {
-      display: none;
-      margin-top: 30px;
-      text-align: left;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-    #signals h2 {
-      color: #00ff99;
-      margin-bottom: 15px;
-      font-weight: 700;
-    }
-    #signals ul {
-      padding-left: 20px;
-    }
-    #signals li {
-      margin-bottom: 12px;
-      background: rgba(0, 255, 153, 0.1);
-      padding: 12px 15px;
-      border-radius: 10px;
-      box-shadow: inset 0 0 10px rgba(0, 255, 153, 0.3);
-    }
-    #lastUpdate {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #66ffb3;
-      font-style: italic;
-      text-align: right;
+      background: #00ccbb;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>WealthMind Access</h1>
-    <p>Enter your Phantom X code to unlock live trade signals based on Smart Money & Price Action.</p>
-    <input type="text" id="accessCode" placeholder="Access Code" autocomplete="off" />
-    <button onclick="checkCode()">Unlock</button>
-    <div id="message"></div>
+  <h1>WealthMind Trader</h1>
+  <p>Enter the code. Secure your early access.</p>
 
-    <div id="signals">
-      <h2>Phantom X Trade Signals</h2>
-      <ul>
-        <li><strong>XAU/USD:</strong> Rejection at order block 3195–3200 zone. Wait for bearish pin bar confirmation on 15m. SL: 3207, TP: 3175. R:R 1:3+</li>
-        <li><strong>EUR/USD:</strong> Bullish retest of daily support 1.0835–1.0850 zone. Confirm with engulfing candle. SL: 1.0815, TP: 1.0900</li>
-        <li><strong>NAS100:</strong> Break and close above 18620 daily high triggers breakout long. SL: 18550, TP: 18850</li>
-      </ul>
-      <div id="lastUpdate">Last updated: May 20, 2025</div>
-    </div>
-  </div>
-
-  <script>
-    function checkCode() {
-      const code = document.getElementById("accessCode").value.trim().toLowerCase();
-      const validCode = "phantomx";
-      const message = document.getElementById("message");
-      const signals = document.getElementById("signals");
-
-      if (code === validCode) {
-        message.textContent = "Access granted.";
-        message.style.color = "#00ff99";
-        signals.style.display = "block";
-      } else {
-        message.textContent = "Invalid code. Try again.";
-        message.style.color = "#ff4444";
-        signals.style.display = "none";
-      }
-    }
-  </script>
+  <form action="https://formsubmit.co/phantomx@gmail.com" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_next" value="https://mannequin1.github.io/shadowpulse-x/thankyou.html" />
+    <button type="submit">Get Early Access</button>
+  </form>
 </body>
 </html>
