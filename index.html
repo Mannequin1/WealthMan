@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WealthMind Access - Phantom X Live Signals</title>
 <style>
-  /* Same styles as before */
   body {
     margin: 0;
     background: #0b0b0b;
@@ -22,7 +21,7 @@
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 20px;
     padding: 40px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     backdrop-filter: blur(12px);
     box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
@@ -75,15 +74,20 @@
     font-weight: 700;
     text-align: center;
   }
-  #signals ul {
-    padding-left: 20px;
+  #signals table {
+    width: 100%;
+    border-collapse: collapse;
   }
-  #signals li {
-    margin-bottom: 12px;
-    background: rgba(0, 255, 153, 0.1);
-    padding: 12px 15px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 10px rgba(0, 255, 153, 0.3);
+  #signals th, #signals td {
+    border: 1px solid rgba(0, 255, 153, 0.3);
+    padding: 10px;
+    border-radius: 6px;
+  }
+  #signals th {
+    background: rgba(0, 255, 153, 0.2);
+    color: #00ff99;
+    font-weight: 700;
+    text-align: left;
   }
   #lastUpdate {
     margin-top: 15px;
@@ -104,14 +108,23 @@
 
   <div id="signals">
     <h2>Phantom X Live Trade Signals</h2>
-    <ul id="signalsList"></ul>
+    <table id="signalsTable">
+      <thead>
+        <tr>
+          <th>Signal</th>
+          <th>Time</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody id="signalsBody"></tbody>
+    </table>
     <div id="lastUpdate"></div>
   </div>
 </div>
 
 <script>
   const validCode = "unlock"; // Access code
-  const sheetID = "1rUu3TSdXh1PBXNLnoCVtEJRLk1q3IUtXpnHhdxhOwXE"; // Sample sheet ID
+  const sheetID = "1PvRzR_Sv9HycvXzuPzt9_cpQfhl_yCgKJdaZcriSUyY"; // Your Google Sheet ID
 
   function checkCode() {
     const code = document.getElementById("accessCode").value.trim().toLowerCase();
@@ -131,39 +144,58 @@
   }
 
   async function fetchSignals() {
-    const signalsList = document.getElementById("signalsList");
+    const signalsBody = document.getElementById("signalsBody");
     const lastUpdate = document.getElementById("lastUpdate");
-    signalsList.innerHTML = "";
+    signalsBody.innerHTML = "";
 
     try {
-      const response = await fetch(`https://docs.google.com/spreadsheets/d/${sheetID}/pub?output=csv`);
+      const response = await fetch(`https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`);
       if (!response.ok) throw new Error("Failed to fetch signals.");
 
       const csvText = await response.text();
-      const lines = csvText.trim().split("\n").slice(1); // Skip header row
-
-      if (lines.length === 0) {
-        signalsList.innerHTML = "<li>No signals found.</li>";
+      const lines = csvText.trim().split("\n");
+      if (lines.length <= 1) {
+        signalsBody.innerHTML = "<tr><td colspan='3'>No signals found.</td></tr>";
         return;
       }
 
-      lines.forEach(line => {
-        const signal = line.trim();
-        if (signal) {
-          const li = document.createElement("li");
-          li.textContent = signal;
-          signalsList.appendChild(li);
+      // Skip header row (lines[0]), process data rows
+      for (let i = 1; i < lines.length; i++) {
+        const row = parseCSVLine(lines[i]);
+        if (row.length >= 3) {
+          const tr = document.createElement("tr");
+          for (let j = 0; j < 3; j++) {
+            const td = document.createElement("td");
+            td.textContent = row[j];
+            tr.appendChild(td);
+          }
+          signalsBody.appendChild(tr);
         }
-      });
+      }
 
       const now = new Date();
       lastUpdate.textContent = `Last updated: ${now.toLocaleString()}`;
-
     } catch (error) {
-      signalsList.innerHTML = "<li>Error loading signals. Try refreshing.</li>";
+      signalsBody.innerHTML = "<tr><td colspan='3'>Error loading signals. Try refreshing.</td></tr>";
       lastUpdate.textContent = "";
       console.error(error);
     }
+  }
+
+  // Helper to correctly parse CSV line (handles commas inside quotes)
+  function parseCSVLine(text) {
+    const regex = /("([^"]|"")*"|[^,]*)(,|$)/g;
+    const result = [];
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      let value = match[1];
+      if (value.startsWith('"') && value.endsWith('"')) {
+        value = value.slice(1, -1).replace(/""/g, '"');
+      }
+      result.push(value);
+      if (match[3] === "") break;
+    }
+    return result;
   }
 </script>
 </body>
