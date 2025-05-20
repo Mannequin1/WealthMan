@@ -109,13 +109,11 @@
 </div>
 
 <script>
-  const validCode = "unlock"; // Access code set to "unlock"
-  const sheetID = "YOUR_SHEET_ID_HERE"; // Replace with your Google Sheet ID
+  const validCode = "unlock"; // Access code
+  const sheetID = "YOUR_SHEET_ID_HERE"; // Replace with your actual Google Sheet ID
 
   function checkCode() {
     const code = document.getElementById("accessCode").value.trim().toLowerCase();
-    console.log("Entered code:", code); // Debug print in console
-
     const message = document.getElementById("message");
     const signalsDiv = document.getElementById("signals");
 
@@ -141,7 +139,7 @@
       if (!response.ok) throw new Error("Failed to fetch signals.");
 
       const csvText = await response.text();
-      const lines = csvText.trim().split("\n").slice(1); // skip header
+      const lines = csvText.trim().split("\n").slice(1); // Skip header row
 
       if (lines.length === 0) {
         signalsList.innerHTML = "<li>No signals found.</li>";
