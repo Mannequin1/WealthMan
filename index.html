@@ -1,133 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WealthMind Access - Phantom X Signals</title>
-  <style>
-    body {
-      margin: 0;
-      background: #0b0b0b;
-      color: #eee;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .container {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 450px;
-      width: 100%;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      margin-top: 20px;
-      background: rgba(255,255,255,0.1);
-      color: #eee;
-    }
-    input::placeholder {
-      color: #bbb;
-    }
-    button {
-      margin-top: 25px;
-      padding: 14px 0;
-      width: 100%;
-      font-size: 16px;
-      background: #00ff99;
-      color: #0b0b0b;
-      font-weight: 700;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #00cc77;
-    }
-    #message {
-      margin-top: 20px;
-      font-size: 14px;
-      min-height: 20px;
-    }
-    #signals {
-      display: none;
-      margin-top: 30px;
-      text-align: left;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-    #signals h2 {
-      color: #00ff99;
-      margin-bottom: 15px;
-      font-weight: 700;
-    }
-    #signals ul {
-      padding-left: 20px;
-    }
-    #signals li {
-      margin-bottom: 12px;
-      background: rgba(0, 255, 153, 0.1);
-      padding: 12px 15px;
-      border-radius: 10px;
-      box-shadow: inset 0 0 10px rgba(0, 255, 153, 0.3);
-    }
-    #lastUpdate {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #66ffb3;
-      font-style: italic;
-      text-align: right;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WealthMind Access - Phantom X Live Signals</title>
+<style>
+  body {
+    margin: 0;
+    background: #0b0b0b;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .container {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
+    text-align: center;
+  }
+  input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    margin-top: 20px;
+    background: rgba(255,255,255,0.1);
+    color: #eee;
+  }
+  input::placeholder {
+    color: #bbb;
+  }
+  button {
+    margin-top: 25px;
+    padding: 14px 0;
+    width: 100%;
+    font-size: 16px;
+    background: #00ff99;
+    color: #0b0b0b;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #00cc77;
+  }
+  #message {
+    margin-top: 20px;
+    font-size: 14px;
+    min-height: 20px;
+  }
+  #signals {
+    display: none;
+    margin-top: 30px;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  #signals h2 {
+    color: #00ff99;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: center;
+  }
+  #signals ul {
+    padding-left: 20px;
+  }
+  #signals li {
+    margin-bottom: 12px;
+    background: rgba(0, 255, 153, 0.1);
+    padding: 12px 15px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 255, 153, 0.3);
+  }
+  #lastUpdate {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #66ffb3;
+    font-style: italic;
+    text-align: right;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>WealthMind Access</h1>
-    <p>Enter your Phantom X code to unlock live trade signals based on Smart Money & Price Action.</p>
-    <input type="text" id="accessCode" placeholder="Access Code" autocomplete="off" />
-    <button onclick="checkCode()">Unlock</button>
-    <div id="message"></div>
+<div class="container">
+  <h1>WealthMind Access</h1>
+  <p>Enter your Phantom X code to unlock live trade signals.</p>
+  <input type="text" id="accessCode" placeholder="Access Code" autocomplete="off" />
+  <button onclick="checkCode()">Unlock</button>
+  <div id="message"></div>
 
-    <div id="signals">
-      <h2>Phantom X Trade Signals</h2>
-      <ul>
-        <li><strong>XAU/USD:</strong> Rejection at order block 3195–3200 zone. Wait for bearish pin bar confirmation on 15m. SL: 3207, TP: 3175. R:R 1:3+</li>
-        <li><strong>EUR/USD:</strong> Bullish retest of daily support 1.0835–1.0850 zone. Confirm with engulfing candle. SL: 1.0815, TP: 1.0900</li>
-        <li><strong>NAS100:</strong> Break and close above 18620 daily high triggers breakout long. SL: 18550, TP: 18850</li>
-      </ul>
-      <div id="lastUpdate">Last updated: May 20, 2025</div>
-    </div>
+  <div id="signals">
+    <h2>Phantom X Live Trade Signals</h2>
+    <ul id="signalsList"></ul>
+    <div id="lastUpdate"></div>
   </div>
+</div>
 
-  <script>
-    function checkCode() {
-      const code = document.getElementById("accessCode").value.trim().toLowerCase();
-      const validCode = "phantomx";
-      const message = document.getElementById("message");
-      const signals = document.getElementById("signals");
+<script>
+  const validCode = "phantomx"; // Your access code here
+  const sheetID = "YOUR_SHEET_ID_HERE"; // Your Google Sheet ID here
 
-      if (code === validCode) {
-        message.textContent = "Access granted.";
-        message.style.color = "#00ff99";
-        signals.style.display = "block";
-      } else {
-        message.textContent = "Invalid code. Try again.";
-        message.style.color = "#ff4444";
-        signals.style.display = "none";
-      }
+  function checkCode() {
+    const code = document.getElementById("accessCode").value.trim().toLowerCase();
+    const message = document.getElementById("message");
+    const signalsDiv = document.getElementById("signals");
+
+    if (code === validCode) {
+      message.textContent = "Access granted. Loading signals...";
+      message.style.color = "#00ff99";
+      signalsDiv.style.display = "block";
+      fetchSignals();
+    } else {
+      message.textContent = "Invalid code. Try again.";
+      message.style.color = "#ff4444";
+      signalsDiv.style.display = "none";
     }
-  </script>
+  }
+
+  async function fetchSignals() {
+    const signalsList = document.getElementById("signalsList");
+    const lastUpdate = document.getElementById("lastUpdate");
+    signalsList.innerHTML = "";
+
+    try {
+      const response = await fetch(`https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`);
+      if (!response.ok) throw new Error("Failed to fetch signals.");
+
+      const csvText = await response.text();
+      const lines = csvText.trim().split("\n").slice(1); // skip header
+
+      if (lines.length === 0) {
+        signalsList.innerHTML = "<li>No signals found.</li>";
+        return;
+      }
+
+      lines.forEach(line => {
+        const signal = line.trim();
+        if (signal) {
+          const li = document.createElement("li");
+          li.textContent = signal;
+          signalsList.appendChild(li);
+        }
+      });
+
+      const now = new Date();
+      lastUpdate.textContent = `Last updated: ${now.toLocaleString()}`;
+
+    } catch (error) {
+      signalsList.innerHTML = "<li>Error loading signals. Try refreshing.</li>";
+      lastUpdate.textContent = "";
+      console.error(error);
+    }
+  }
+</script>
 </body>
 </html>
