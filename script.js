@@ -1,36 +1,39 @@
-// Typewriter Effect
-const words = ["Precision trades.", "Calm mindset.", "Phantom domination."];
-let i = 0;
-let timer;
+async function fetchSignals() {
+  const signalsList = document.getElementById("signalsList");
+  const lastUpdate = document.getElementById("lastUpdate");
+  signalsList.innerHTML = "";
 
-function typingEffect() {
-  let word = words[i].split("");
-  let loopTyping = function () {
-    if (word.length > 0) {
-      document.getElementById("typewriter").innerHTML += word.shift();
-    } else {
-      deletingEffect();
-      return false;
+  try {
+    // Use Sheetson API to get sheet data as JSON
+    const response = await fetch(`https://api.sheetson.com/v2/sheets/Sheet1`, {
+      headers: {
+        'Authorization': 'Bearer public',  // no auth needed for public sheets
+      }
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch signals.");
+
+    const data = await response.json();
+
+    if (!data.results || data.results.length === 0) {
+      signalsList.innerHTML = "<li>No signals found.</li>";
+      return;
     }
-    timer = setTimeout(loopTyping, 100);
-  };
-  loopTyping();
-}
 
-function deletingEffect() {
-  let word = words[i].split("");
-  let loopDeleting = function () {
-    if (word.length > 0) {
-      word.pop();
-      document.getElementById("typewriter").innerHTML = word.join("");
-    } else {
-      i = (i + 1) % words.length;
-      typingEffect();
-      return false;
-    }
-    timer = setTimeout(loopDeleting, 50);
-  };
-  setTimeout(loopDeleting, 1000);
-}
+    data.results.forEach(row => {
+      // Assume your sheet has a column called 'Signal' - adjust this
+      const signalText = row.Signal || JSON.stringify(row);
+      const li = document.createElement("li");
+      li.textContent = signalText;
+      signalsList.appendChild(li);
+    });
 
-typingEffect();
+    const now = new Date();
+    lastUpdate.textContent = `Last updated: ${now.toLocaleString()}`;
+
+  } catch (error) {
+    signalsList.innerHTML = "<li>Error loading signals. Try refreshing.</li>";
+    lastUpdate.textContent = "";
+    console.error(error);
+  }
+}
