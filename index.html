@@ -7,14 +7,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="overlay"></div>
   <header>
     <h1>WealthMind Trader</h1>
-    <p class="tagline">Precision trades. Calm mindset. Phantom domination.</p>
+    <p class="tagline"><span id="typewriter"></span></p>
   </header>
 
   <main>
-    <form id="signup-form">
-      <input type="email" id="email" placeholder="Enter your email" required />
+    <form id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="email" name="email" placeholder="Enter your email" required />
       <button type="submit">Join Early Access</button>
     </form>
     <p id="success-message"></p>
