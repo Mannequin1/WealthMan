@@ -1,181 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>WealthMind Access - Phantom X Live Signals</title>
-<style>
-  body {
-    margin: 0;
-    background: #0b0b0b;
-    color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-  .container {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 600px;
-    width: 100%;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
-    text-align: center;
-  }
-  input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    margin-top: 20px;
-    background: rgba(255,255,255,0.1);
-    color: #eee;
-  }
-  input::placeholder {
-    color: #bbb;
-  }
-  button {
-    margin-top: 25px;
-    padding: 14px 0;
-    width: 100%;
-    font-size: 16px;
-    background: #00ff99;
-    color: #0b0b0b;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #00cc77;
-  }
-  #message {
-    margin-top: 20px;
-    font-size: 14px;
-    min-height: 20px;
-  }
-  #signals {
-    display: none;
-    margin-top: 30px;
-    text-align: left;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  #signals h2 {
-    color: #00ff99;
-    margin-bottom: 15px;
-    font-weight: 700;
-    text-align: center;
-  }
-  #signals ul {
-    padding-left: 0;
-    list-style: none;
-  }
-  #signals li {
-    margin-bottom: 15px;
-    background: rgba(0, 255, 153, 0.07);
-    padding: 15px 18px;
-    border-radius: 12px;
-    box-shadow: inset 0 0 12px rgba(0, 255, 153, 0.3);
-  }
-  .pair {
-    font-weight: bold;
-    color: #00ff99;
-    font-size: 16px;
-  }
-  .details {
-    font-size: 14px;
-    color: #ccc;
-    margin-top: 4px;
-  }
-  #lastUpdate {
-    margin-top: 20px;
-    font-size: 13px;
-    color: #66ffb3;
-    font-style: italic;
-    text-align: right;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>WealthMan Access</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+    }
+    #errorMsg {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <h1>WealthMind Access</h1>
-  <p>Enter your Phantom X code to unlock live trade signals.</p>
-  <input type="text" id="accessCode" placeholder="Access Code" autocomplete="off" />
-  <button onclick="checkCode()">Unlock</button>
-  <div id="message"></div>
+  <h1>Enter Access Code</h1>
+  <input id="codeInput" type="password" placeholder="Decrypt key...">
+  <button id="submitBtn">Unlock</button>
+  <p id="errorMsg"></p>
 
-  <div id="signals">
-    <h2>Phantom X Live Trade Signals</h2>
-    <ul id="signalsList"></ul>
-    <div id="lastUpdate"></div>
-  </div>
-</div>
+  <script>
+    const correctHash = "b109f3bbbc244eb82441917ed06d618b9008dd09c7f1ef0f0b98e3acb8f1b622"; // SHA-256 of "letmein"
 
-<script>
-  const validCode = "unlock";
-  const sheetID = "1Rvy6XECux89t7wpDB8tfkQgR-6_6weD3Z0ZT-V5geX4";
-
-  function checkCode() {
-    const code = document.getElementById("accessCode").value.trim().toLowerCase();
-    const message = document.getElementById("message");
-    const signalsDiv = document.getElementById("signals");
-
-    if (code === validCode) {
-      message.textContent = "Access granted. Loading signals...";
-      message.style.color = "#00ff99";
-      signalsDiv.style.display = "block";
-      fetchSignals();
-    } else {
-      message.textContent = "Invalid code. Please try again.";
-      message.style.color = "#ff4444";
-      signalsDiv.style.display = "none";
+    async function hashInput(input) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(input);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hashBuffer))
+                  .map(b => b.toString(16).padStart(2, '0')).join('');
     }
-  }
 
-  async function fetchSignals() {
-    const signalsList = document.getElementById("signalsList");
-    const lastUpdate = document.getElementById("lastUpdate");
-    signalsList.innerHTML = "";
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      const userInput = document.getElementById("codeInput").value;
+      const hashedInput = await hashInput(userInput);
 
-    try {
-      const response = await fetch(`https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`);
-      if (!response.ok) throw new Error("Failed to fetch signals.");
-
-      const csvText = await response.text();
-      const lines = csvText.trim().split("\n");
-      const headers = lines[0].split(",");
-
-      lines.slice(1).forEach(line => {
-        const data = line.split(",");
-        if (data.length >= 7) {
-          const [pair, direction, entry, sl, tp, tf, note] = data;
-          const li = document.createElement("li");
-          li.innerHTML = `
-            <div class="pair">${pair} – ${direction}</div>
-            <div class="details">Entry: ${entry} | SL: ${sl} | TP: ${tp}</div>
-            <div class="details">TF: ${tf} | Note: ${note}</div>
-          `;
-          signalsList.appendChild(li);
-        }
-      });
-
-      const now = new Date();
-      lastUpdate.textContent = `Last updated: ${now.toLocaleString()}`;
-
-    } catch (error) {
-      signalsList.innerHTML = "<li>Error loading signals. Try refreshing.</li>";
-      lastUpdate.textContent = "";
-      console.error(error);
-    }
-  }
-</script>
+      if (hashedInput === correctHash) {
+        window.location.href = "dashboard.html";
+      } else {
+        document.getElementById("errorMsg").textContent = "Invalid code. Try again.";
+      }
+    });
+  </script>
 </body>
 </html>
