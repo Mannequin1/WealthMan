@@ -2,29 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WealthMind Trader</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WealthMind Early Access</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #cccccc;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 300px;
+    }
+
+    input {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.9rem;
+      background: #00ffe0;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #00ccbb;
+    }
+  </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <header>
-    <h1>WealthMind Trader</h1>
-    <p class="tagline"><span id="typewriter"></span></p>
-  </header>
+  <h1>WealthMind Trader</h1>
+  <p>Enter the code. Secure your early access.</p>
 
-  <main>
-    <form id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required />
-      <button type="submit">Join Early Access</button>
-    </form>
-    <p id="success-message"></p>
-  </main>
-
-  <footer>
-    <p>© 2025 WealthMind Trader. Built by Phantom X.</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <form action="https://formsubmit.co/phantomx@gmail.com" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_next" value="https://mannequin1.github.io/shadowpulse-x/thankyou.html" />
+    <button type="submit">Get Early Access</button>
+  </form>
 </body>
 </html>
