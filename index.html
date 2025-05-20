@@ -110,10 +110,12 @@
 
 <script>
   const validCode = "unlock"; // Access code set to "unlock"
-  const sheetID = "YOUR_SHEET_ID_HERE"; // Your Google Sheet ID here
+  const sheetID = "YOUR_SHEET_ID_HERE"; // Replace with your Google Sheet ID
 
   function checkCode() {
     const code = document.getElementById("accessCode").value.trim().toLowerCase();
+    console.log("Entered code:", code); // Debug print in console
+
     const message = document.getElementById("message");
     const signalsDiv = document.getElementById("signals");
 
@@ -123,7 +125,7 @@
       signalsDiv.style.display = "block";
       fetchSignals();
     } else {
-      message.textContent = "Invalid code. Try again.";
+      message.textContent = "Invalid code. Please try again.";
       message.style.color = "#ff4444";
       signalsDiv.style.display = "none";
     }
