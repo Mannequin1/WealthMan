@@ -21,7 +21,7 @@
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 20px;
     padding: 40px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     backdrop-filter: blur(12px);
     box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
@@ -66,7 +66,7 @@
     margin-top: 30px;
     text-align: left;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
   }
   #signals h2 {
     color: #00ff99;
@@ -75,17 +75,28 @@
     text-align: center;
   }
   #signals ul {
-    padding-left: 20px;
+    padding-left: 0;
+    list-style: none;
   }
   #signals li {
-    margin-bottom: 12px;
-    background: rgba(0, 255, 153, 0.1);
-    padding: 12px 15px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 10px rgba(0, 255, 153, 0.3);
+    margin-bottom: 15px;
+    background: rgba(0, 255, 153, 0.07);
+    padding: 15px 18px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 12px rgba(0, 255, 153, 0.3);
+  }
+  .pair {
+    font-weight: bold;
+    color: #00ff99;
+    font-size: 16px;
+  }
+  .details {
+    font-size: 14px;
+    color: #ccc;
+    margin-top: 4px;
   }
   #lastUpdate {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 13px;
     color: #66ffb3;
     font-style: italic;
@@ -109,8 +120,8 @@
 </div>
 
 <script>
-  const validCode = "unlock"; // Access code
-  const sheetID = "1PvRzR_Sv9HycvXzuPzt9_cpQfhl_yCgKJdaZcriSUyY"; // Your Google Sheet ID
+  const validCode = "unlock";
+  const sheetID = "1Rvy6XECux89t7wpDB8tfkQgR-6_6weD3Z0ZT-V5geX4";
 
   function checkCode() {
     const code = document.getElementById("accessCode").value.trim().toLowerCase();
@@ -139,17 +150,19 @@
       if (!response.ok) throw new Error("Failed to fetch signals.");
 
       const csvText = await response.text();
-      const lines = csvText.trim().split("\n").slice(1); // Skip header row
+      const lines = csvText.trim().split("\n");
+      const headers = lines[0].split(",");
 
-      if (lines.length === 0) {
-        signalsList.innerHTML = "<li>No signals found.</li>";
-        return;
-      }
-
-      lines.forEach(line => {
-        if (line.trim()) {
+      lines.slice(1).forEach(line => {
+        const data = line.split(",");
+        if (data.length >= 7) {
+          const [pair, direction, entry, sl, tp, tf, note] = data;
           const li = document.createElement("li");
-          li.textContent = line;
+          li.innerHTML = `
+            <div class="pair">${pair} – ${direction}</div>
+            <div class="details">Entry: ${entry} | SL: ${sl} | TP: ${tp}</div>
+            <div class="details">TF: ${tf} | Note: ${note}</div>
+          `;
           signalsList.appendChild(li);
         }
       });
