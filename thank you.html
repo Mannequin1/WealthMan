@@ -1,33 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thanks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WealthMind Trader Access</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    /* Cosmic background animation */
     body {
-      background: #0a0a0a;
-      color: #00ffe0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin: 0;
       height: 100vh;
-      font-family: monospace;
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at center, #0a0a0a 0%, #000000 70%);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #eee;
       flex-direction: column;
     }
 
-    h1 {
-      font-size: 3rem;
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      box-shadow:
+        50px 50px 2px white,
+        120px 80px 2px #f5a623,
+        200px 120px 2px white,
+        300px 200px 2px #f5a623,
+        400px 300px 2px white,
+        500px 350px 2px #f5a623,
+        600px 400px 2px white;
+      animation: twinkle 10s linear infinite;
+      z-index: 0;
     }
 
-    p {
-      font-size: 1.2rem;
-      color: #aaa;
+    @keyframes twinkle {
+      0%, 100% {opacity: 1;}
+      50% {opacity: 0.6;}
+    }
+
+    .container {
+      background: rgba(15, 15, 15, 0.95);
+      padding: 40px 60px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px #f5a623aa;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: fadeIn 1.2s forwards;
+    }
+
+    h2, h1 {
+      margin-bottom: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    input[type="text"], input[type="email"] {
+      width: calc(100% - 24px);
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+      background: #222;
+      color: #eee;
+      transition: box-shadow 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus {
+      outline: none;
+      box-shadow: 0 0 10px #f5a623;
+      background: #111;
+    }
+
+    button {
+      background: #f5a623;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #0a0a0a;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #d18c0f;
+    }
+
+    #nextUI, #emailForm, #finalMessage {
+      display: none;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+      animation-delay: 0.4s;
+    }
+
+    .error {
+      color: crimson;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    #emailStatus {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>You’re in.</h1>
-  <p>We’ll hit your inbox soon. Stay sharp.</p>
+  <div class="stars"></div>
+
+  <div class="container" id="accessContainer">
+    <h2>Enter Access Code</h2>
+    <input type="text" id="codeInput" placeholder="Enter code..." autocomplete="off" autofocus />
+    <p class="error" id="errorMsg"></p>
+    <button id="codeButton">Enter</button>
+
+    <div id="nextUI">
+      <h2>Welcome to WealthMind</h2>
+      <p>This is your Phantom access layer.</p>
+
+      <div id="emailForm">
+        <input type="email" id="emailInput" placeholder="Enter your email" autocomplete="off" />
+        <button id="emailButton">Activate Feed</button>
+        <p id="emailStatus"></p>
+      </div>
+    </div>
+
+    <div id="finalMessage" style="margin-top:20px; color:#90ee90; font-weight:700;">
+      <h1>You’re in.</h1>
+      <p>We’ll hit your inbox soon. Stay sharp.</p>
+      <button id="enterButton" style="margin-top:15px; padding:10px 20px; background:#f5a623; border:none; border-radius:6px; cursor:pointer; color:#0a0a0a; font-weight:700;">
+        Enter WealthMind
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const codeButton = document.getElementById("codeButton");
+    const emailButton = document.getElementById("emailButton");
+
+    codeButton.onclick = () => {
+      const code = document.getElementById("codeInput").value.trim().toLowerCase();
+      const nextUI = document.getElementById("nextUI");
+      const errorMsg = document.getElementById("errorMsg");
+      const codeInput = document.getElementById("codeInput");
+      if (code === "unlock") {
+        errorMsg.textContent = "";
+        // Hide code input & button
+        codeInput.style.display = "none";
+        errorMsg.style.display = "none";
+        codeButton.style.display = "none";
+
+        // Show next UI
+        nextUI.style.display = "block";
+        nextUI.style.opacity = 0;
+        setTimeout(() => { nextUI.style.opacity = 1; }, 100);
+      } else {
+        errorMsg.textContent = "Wrong frequency. Try again.";
+        // Shake effect
+        codeInput.style.animation = "shake 0.3s";
+        codeInput.addEventListener('animationend', () => {
+          codeInput.style.animation = "";
+        }, { once: true });
+      }
+    };
+
+    emailButton.onclick = () => {
+      const email = document.getElementById("emailInput").value.trim();
+      const status = document.getElementById("emailStatus");
+      const emailForm = document.getElementById("emailForm");
+      const finalMessage = document.getElementById("finalMessage");
+
+      if (email && email.includes("@") && email.includes(".")) {
+        status.textContent = "";
+
+        // Hide email form with fade out
+        emailForm.style.transition = "opacity 0.5s";
+        emailForm.style.opacity = 0;
+        setTimeout(() => {
+          emailForm.style.display = "none";
+
+          // Show final message with fade in
+          finalMessage.style.display = "block";
+          finalMessage.style.opacity = 0;
+          setTimeout(() => {
+            finalMessage.style.opacity = 1;
+          }, 50);
+        }, 500);
+
+        // Optional: Enter WealthMind button click
+        document.getElementById("enterButton").onclick = () => {
+          alert("Welcome to WealthMind — further content coming soon!");
+          // Or redirect:
+          // window.location.href = "your-app-link.html";
+        };
+      } else {
+        status.textContent = "Enter a valid email.";
+        status.style.color = "crimson";
+      }
+    };
+  </script>
 </body>
 </html>
