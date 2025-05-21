@@ -118,6 +118,13 @@
         opacity: 1;
       }
     }
+
+    /* Shake animation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25%, 75% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+    }
   </style>
 </head>
 <body>
@@ -127,7 +134,7 @@
     <h2>Enter Access Code</h2>
     <input type="text" id="codeInput" placeholder="Enter code..." autocomplete="off" autofocus />
     <p class="error" id="errorMsg"></p>
-    <button onclick="checkCode()">Enter</button>
+    <button id="enterBtn" onclick="checkCode()">Enter</button>
 
     <div id="nextUI">
       <h2>Welcome to WealthMind</h2>
@@ -147,19 +154,24 @@
       const nextUI = document.getElementById("nextUI");
       const errorMsg = document.getElementById("errorMsg");
       const codeInput = document.getElementById("codeInput");
-      const accessContainer = document.getElementById("accessContainer");
+      const enterBtn = document.getElementById("enterBtn");
 
       if (code === "unlock") {
         errorMsg.textContent = "";
         // Hide code input & button
         codeInput.style.display = "none";
         errorMsg.style.display = "none";
-        event.target.style.display = "none"; // hides the button (works only if triggered by button click)
+        enterBtn.style.display = "none";
         // Show next UI
         nextUI.style.display = "block";
         nextUI.style.opacity = 0;
         // fade-in effect
         setTimeout(() => { nextUI.style.opacity = 1; }, 100);
+        // Show email form after a short delay
+        setTimeout(() => {
+          document.getElementById("emailForm").style.display = "block";
+          document.getElementById("emailForm").style.opacity = 1;
+        }, 400);
       } else {
         errorMsg.textContent = "Wrong frequency. Try again.";
         // Shake effect
@@ -177,9 +189,10 @@
       if (email && email.includes("@") && email.includes(".")) {
         status.textContent = "You’re locked in. Watch your inbox.";
         status.style.color = "#90ee90";
-        // Here, you could add a mailto fallback or manual collection method.
-        // For example:
-        // window.location.href = `mailto:youremail@domain.com?subject=WealthMind%20Access%20Request&body=Email:%20${encodeURIComponent(email)}`;
+
+        // Optional mailto link if you want to open email client:
+        // window.location.href = `mailto:lehlohonololeboko75@gmail.com?subject=WealthMind%20Access%20Request&body=Email:%20${encodeURIComponent(email)}`;
+
       } else {
         status.textContent = "Enter a valid email.";
         status.style.color = "crimson";
